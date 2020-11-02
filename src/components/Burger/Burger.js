@@ -12,7 +12,6 @@ const burger = (props) => {
 		.reduce((arr, elem) => {
 			return arr.concat(elem);
 		}, []);
-	console.log(orderedIngredients);
 	orderedIngredients.length === 0 ? (orderedIngredients = <p>Please choose ingredients</p>) : null;
 	return (
 		<div className={classes.Burger}>
