@@ -6,15 +6,18 @@ import { Fragment } from 'react';
 
 class Layout extends Component {
 	state = {
-		showSideDrawer: true
+		showSideDrawer: false
 	};
 	closeSideDraw = () => {
 		this.setState({ showSideDrawer: false });
 	};
+	toggleSidebar = () => {
+		this.setState((prevState) => ({ showSideDrawer: !prevState.showSideDrawer }));
+	};
 	render() {
 		return (
 			<Fragment>
-				<Toolbar />
+				<Toolbar menuClicked={this.toggleSidebar} />
 				<SideDrawer open={this.state.showSideDrawer} close={this.closeSideDraw} />
 
 				<div>Sidedrawer BAckdrop</div>
