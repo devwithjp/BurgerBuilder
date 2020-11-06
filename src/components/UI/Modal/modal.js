@@ -3,7 +3,7 @@ import classes from './Modal.css';
 import Backdrop from '../Backdrop/Backdrop';
 class Modal extends Component {
 	shouldComponentUpdate(nextProps, nextState) {
-		return nextProps.purchasing !== this.props.purchasing;
+		return nextProps.purchasing !== this.props.purchasing || nextProps.children !== this.props.children;
 	}
 	componentDidUpdate() {
 		console.log('[Modal] Updated');
