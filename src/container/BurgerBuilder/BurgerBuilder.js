@@ -6,7 +6,7 @@ import OrderSummary from '../../components/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinners/Spinner';
 import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler';
-import burger from '../../components/Burger/Burger';
+import { withRouter } from 'react-router-dom';
 
 const PRICES = {
 	salad: 10,
@@ -25,6 +25,7 @@ class BurgerBuilder extends Component {
 	};
 
 	componentDidMount() {
+		console.log(this.props);
 		axios
 			.get('https://react-burger-builder-b762c.firebaseio.com/ingredients.json')
 			.then((resp) => {
@@ -73,26 +74,28 @@ class BurgerBuilder extends Component {
 		this.setState({ purchasing: false });
 	};
 	orderHandler = () => {
-		this.setState({ loading: true });
-		const order = {
-			ingredients: this.state.ingredients,
-			price: this.state.initialPrice,
-			customer: {
-				name: 'Ash',
-				address: { street: '12srfrgs/', zip: '234234' },
-				email: 'jtoij@kpgo.com'
-			}
-		};
-		axios
-			.post('/orders.json', order)
-			.then((response) => {
-				this.setState({ loading: false, purchasing: false });
-				console.log(response);
-			})
-			.catch((error) => {
-				this.setState({ loading: false, purchasing: false });
-				console.log(error);
-			});
+		// this.setState({ loading: true });
+		// const order = {
+		// 	ingredients: this.state.ingredients,
+		// 	price: this.state.initialPrice,
+		// 	customer: {
+		// 		name: 'Ash',
+		// 		address: { street: '12srfrgs/', zip: '234234' },
+		// 		email: 'jtoij@kpgo.com'
+		// 	}
+		// };
+		// axios
+		// 	.post('/orders.json', order)
+		// 	.then((response) => {
+		// 		this.setState({ loading: false, purchasing: false });
+		// 		console.log(response);
+		// 	})
+		// 	.catch((error) => {
+		// 		this.setState({ loading: false, purchasing: false });
+		// 		console.log(error);
+		// 	});
+		// console.log(this.props);
+		this.props.history.push('/checkout');
 	};
 	render() {
 		let disabledInfo = {
@@ -139,4 +142,4 @@ class BurgerBuilder extends Component {
 		);
 	}
 }
-export default withErrorHandler(BurgerBuilder, axios);
+export default withErrorHandler(withRouter(BurgerBuilder), axios);
