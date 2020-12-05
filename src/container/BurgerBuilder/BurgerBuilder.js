@@ -95,7 +95,16 @@ class BurgerBuilder extends Component {
 		// 		console.log(error);
 		// 	});
 		// console.log(this.props);
-		this.props.history.push('/checkout');
+		const query = [];
+		for (let i in this.state.ingredients) {
+			query.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+		}
+		const queryString = query.join('&');
+
+		this.props.history.push({
+			pathname: '/checkout',
+			search: '?' + queryString
+		});
 	};
 	render() {
 		let disabledInfo = {
