@@ -5,7 +5,8 @@ import { Route } from 'react-router-dom';
 
 class Checkout extends Component {
 	state = {
-		ingredients: { meat: 2, bacon: 5, salad: 0, cheese: 0 }
+		ingredients: null,
+		price: 0
 	};
 	cancelClickedHandler = () => {
 		this.props.history.goBack();
@@ -13,13 +14,17 @@ class Checkout extends Component {
 	continueClickedHandler = () => {
 		this.props.history.replace(this.props.match.path + '/contact-data');
 	};
-	componentDidMount() {
+	componentWillMount() {
 		console.log(this.props);
 		const queryParams = new URLSearchParams(this.props.location.search);
 		const ingredients = {};
 		for (let query of queryParams.entries()) {
-			//['x':'2']
-			ingredients[query[0]] = +query[1];
+			//['x','2']
+			if (query[0] === 'price') {
+				this.setState({ price: query[1] });
+			} else {
+				ingredients[query[0]] = +query[1];
+			}
 		}
 		this.setState({ ingredients: ingredients });
 	}
@@ -31,7 +36,12 @@ class Checkout extends Component {
 					cancelClicked={this.cancelClickedHandler}
 					continueClicked={this.continueClickedHandler}
 				/>
-				<Route path={this.props.match.path + '/contact-data'} component={ContactData} />
+				<Route
+					path={this.props.match.path + '/contact-data'}
+					render={(props) => (
+						<ContactData ingredients={this.state.ingredients} price={this.state.price} {...props} />
+					)}
+				/>
 			</Fragment>
 		);
 	}
